@@ -1,0 +1,80 @@
+<div class="row">
+    <div class="col-xs-12">
+       <form [formGroup]="recetaForm"  (ngSubmit)="submit()">
+           <div class="row">
+<div class="col-xs-12">
+<button type="submit" class="btn btn-success" [disabled]="!recetaForm.valid" >Guardar</button>
+<button class="btn btn-danger" class="btn btn-danger" (click)="cancelar()">Cancelar</button>
+</div>
+</div>
+<div class="row">
+    <div class="col-sx-12">
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text " id="nombre" formControlName="nombre"  class="form-control">
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sx-12">
+        <div class="form-group">
+            <label for="imagePath">Url Imagen</label>
+            <input type="text "
+             id="imagePath"
+             class="form-control"
+              formControlName="imagePath"
+              #imagePath>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sx-12">
+        <img [src]="imagePath.value" class="img-responsive">
+    </div>
+</div>
+<div class="row">
+    <div class="col-sx-12">
+        <div class="form-group">
+            <label for="descripcion">Descripcion</label>
+            <textarea type="text "
+             id="descripcion"
+              class="form-control"
+              rows="6"
+              formControlName="descripcion">
+        </textarea>
+        </div>
+    </div>
+</div>
+<!--DUPLICAR INPUTS DESDE UN FORMARRAY Y AÑADIRLOS A UN FORMGROUP
+    - Creo un div y le paso   el array ingredientess que asu vez apunta a un FormArray que contiene los elmentos creados
+    -Con el for duplico el div segun los elementos consultados por el metodo get()
+    -El ngfor duplica los inputs  accedo al objeto del  recetaForm, busco la propiedad ingredientess.Controls y la duplico
+-->
+<div class="row">
+<!-- Los controles se crean al llamar el metodo  anadirIngredientes(), para crear un elemento de tipo control en el array "ingredientess" del FormGroup "recetaForm" -->
+        <div class="col-sx-12" formArrayName="ingredientess" >
+       <div class="row "
+       [formGroupName]="i"
+       *ngFor="let ControlIngrediente of recetaForm.get('ingredientess') let i =index" style="margin-top: 10px;">
+       <!-- ingredientess le envia a la vista un control nuevo  -->
+           <div class="col-xs-8">
+            <input type="text" class="form-control" formControlName="nombre">
+           </div>
+           <div class="col-xs-2">
+            <input type="number" class="form-control" formControlName="cantidad">
+           </div>
+           <div class="col-xs-2">
+            <button type="button" class="btn btn-danger" (click)="borraIngrediente(i)">X</button>
+           </div>
+    </div>
+</div>
+</div>
+<hr>
+<div class="row col-xs-12">
+    <button type="button" class="btn  btn-success" (click)="anadirIngredientes()">Añadir ingrediente</button>
+</div>
+
+      </form>
+    </div>
+</div>
